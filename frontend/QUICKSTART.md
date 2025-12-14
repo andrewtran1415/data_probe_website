@@ -13,7 +13,7 @@
 cd /Users/quangtran/Documents/projects/data_probe_website/frontend
 ```
 
-### 2. Install dependencies
+### 2. Install dependenciessss
 
 ```bash
 npm install
