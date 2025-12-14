@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Download, Apple, Loader2 } from 'lucide-react';
-import { COLORS, SPACING, TYPOGRAPHY } from '@/constants/theme';
+import { SPACING, TYPOGRAPHY } from '@/constants/theme';
 import { HERO } from '@/constants/strings';
 import { downloadFile } from '@/utils/download';
 import { toast } from 'sonner';

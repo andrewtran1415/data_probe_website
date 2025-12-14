@@ -1,4 +1,4 @@
-import { Mail, Github, Twitter } from 'lucide-react';
+import { Github, Twitter } from 'lucide-react';
 import { DataProbeLogo } from './DataProbeLogo';
 
 export function Footer() {

@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
 import { DataProbeLogo } from './DataProbeLogo';
-import { COLORS, SPACING } from '@/constants/theme';
+import { SPACING } from '@/constants/theme';
 import { NAVIGATION } from '@/constants/strings';
 import { downloadFile } from '@/utils/download';
 import { toast } from 'sonner';
 
-interface HeaderProps {
-  onDownloadClick?: () => void;
-}
-
-export function Header({ onDownloadClick }: HeaderProps) {
+export function Header() {
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = async () => {

@@ -99,7 +99,7 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
             email: email,
             plan: plan 
           }),
-          successCallback: function(data: any) {
+          successCallback: function() {
             handlePurchaseSuccess();
             setIsProcessing(false);
           },

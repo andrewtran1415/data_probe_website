@@ -101,8 +101,12 @@ export function Auth({ onBack, onSuccess }: AuthProps) {
       } else {
         toast.error(response.error || 'Authentication failed');
         if (response.errors) {
-          // Set field-specific errors
-          setErrors(response.errors as Record<string, string>);
+          // Convert array of errors to single string per field
+          const formattedErrors: Record<string, string> = {};
+          Object.entries(response.errors).forEach(([key, messages]) => {
+            formattedErrors[key] = messages[0]; // Take first error message
+          });
+          setErrors(formattedErrors);
         }
       }
     } catch (error) {

@@ -86,7 +86,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white">
       <Toaster />
-      <Header onDownloadClick={() => handlePurchaseClick('trial')} />
+      <Header />
       <Hero onDownloadClick={() => handlePurchaseClick('trial')} />
       <AnimatedValidation />
       <Features />
