@@ -1,0 +1,131 @@
+---
+description: Frontend component and UI development standards
+globs:
+  - "**/components/**/*"
+  - "**/pages/**/*"
+  - "**/src/**/*.tsx"
+  - "**/src/**/*.jsx"
+  - "**/src/**/*.ts"
+  - "**/src/**/*.js"
+  - "**/*.tsx"
+  - "**/*.jsx"
+alwaysApply: false
+---
+
+# Frontend Domain Rules
+
+> **Note**: Customize this template for your frontend framework. Examples use React/TypeScript, but adapt to Vue, Svelte, Angular, etc.
+
+## COMPONENT STRUCTURE
+
+### Organization
+
+```tsx
+// Related to: TASK-XXX - [Task Title]
+// PRD: docs/prd/[feature-name]-prd.md
+
+import React from 'react';
+import { SomeHook } from './hooks';
+
+// Props interface at top
+interface ComponentProps {
+  title: string;
+  onAction: () => void;
+}
+
+// Functional component
+export const Component: React.FC<ComponentProps> = ({ title, onAction }) => {
+  // Hooks before render logic
+  const [state, setState] = useState();
+  const data = useCustomHook();
+
+  // Render logic
+  return (
+    <div>
+      {/* Component JSX */}
+    </div>
+  );
+};
+
+// Helper functions after component
+const helperFunction = () => {
+  // ...
+};
+```
+
+### Best Practices
+
+- **Component Size**: Max 300 lines per component
+- **Reusability**: Extract reusable logic to custom hooks
+- **Styling**: Use styled-components, CSS modules, or Tailwind
+- **State Management**: Use appropriate tool (Context, Redux, Zustand)
+- **Type Safety**: Use TypeScript for type safety
+
+## ACCESSIBILITY
+
+- Use semantic HTML elements
+- Add ARIA labels where needed
+- Ensure keyboard navigation works
+- Maintain proper focus management
+- Test with screen readers
+- Ensure color contrast meets WCAG standards
+
+## ERROR HANDLING
+
+- Use error boundaries for component error handling
+- Display user-friendly error messages
+- Log errors appropriately
+- Handle loading states
+- Handle empty states gracefully
+
+## PERFORMANCE
+
+- Use React.memo for expensive components
+- Lazy load routes and heavy components
+- Optimize images (use next/image or similar)
+- Avoid unnecessary re-renders
+- Use useMemo/useCallback appropriately
+- Code split large bundles
+
+## STATE MANAGEMENT
+
+- Keep state as local as possible
+- Lift state up only when necessary
+- Use Context for theme/auth/global state
+- Consider state management library for complex apps
+- Avoid prop drilling (use Context or state management)
+
+## TESTING
+
+- Test user interactions, not implementation
+- Test accessibility
+- Test error states
+- Test loading states
+- Use React Testing Library
+- Test component behavior, not internals
+
+## STYLING
+
+- Use consistent design system
+- Follow mobile-first approach
+- Ensure responsive design
+- Use CSS variables for theming
+- Maintain consistent spacing/typography
+
+## CODE QUALITY
+
+- Extract reusable components
+- Keep components focused (single responsibility)
+- Use meaningful variable names
+- Add comments for complex logic
+- Follow project's ESLint/Prettier config
+- Use TypeScript strictly (no `any` types)
+
+## USER EXPERIENCE
+
+- Show loading indicators
+- Provide feedback for user actions
+- Handle edge cases gracefully
+- Ensure smooth transitions/animations
+- Optimize for mobile devices
+- Test across browsers

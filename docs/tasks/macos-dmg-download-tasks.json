@@ -1,0 +1,554 @@
+{
+  "feature": "macOS DMG Download Feature",
+  "prd_reference": "docs/prd/macos-dmg-download-prd.md",
+  "created_at": "2025-12-14",
+  "status": "completed",
+  "summary": {
+    "total_tasks": 8,
+    "total_subtasks": 25,
+    "estimated_total_hours": 24,
+    "completed_tasks": 8
+  },
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Initialize Next.js Backend Project",
+      "description": "Set up Next.js 14+ project with TypeScript in the backend directory with proper configuration and dependencies",
+      "type": "setup",
+      "priority": "high",
+      "complexity": "M",
+      "estimated_hours": 3,
+      "dependencies": [],
+      "status": "completed",
+      "subtasks": [
+        {
+          "id": "TASK-001.1",
+          "description": "Initialize Next.js project with TypeScript in backend/ directory",
+          "acceptance_criteria": [
+            "Next.js project initialized with App Router",
+            "TypeScript configuration present",
+            "package.json created with correct dependencies"
+          ],
+          "files_to_modify": [
+            "backend/package.json",
+            "backend/tsconfig.json",
+            "backend/next.config.js"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "TASK-001.2",
+          "description": "Install required dependencies (next, react, react-dom, typescript, @types/node)",
+          "acceptance_criteria": [
+            "All dependencies installed",
+            "node_modules created",
+            "package-lock.json generated"
+          ],
+          "files_to_modify": [
+            "backend/package.json"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "TASK-001.3",
+          "description": "Create basic project structure (app/, lib/, types/, middleware/ directories)",
+          "acceptance_criteria": [
+            "Directory structure matches PRD specification",
+            "All required directories exist"
+          ],
+          "files_to_modify": [],
+          "status": "completed"
+        },
+        {
+          "id": "TASK-001.4",
+          "description": "Set up environment variables configuration (.env.example, .env.local)",
+          "acceptance_criteria": [
+            ".env.example created with DOWNLOAD_STORAGE_PATH",
+            "Environment variable structure documented"
+          ],
+          "files_to_modify": [
+            "backend/.env.example",
+            "backend/.gitignore"
+          ],
+          "status": "completed"
+        }
+      ],
+      "acceptance_criteria": [
+        "Next.js project runs successfully with `npm run dev`",
+        "TypeScript compilation works without errors",
+        "Project structure matches PRD specification",
+        "Environment variables are properly configured"
+      ],
+      "technical_notes": "Use Next.js 14+ with App Router. Ensure TypeScript strict mode is enabled. Create .gitignore to exclude node_modules, .next, .env.local"
+    },
+    {
+      "id": "TASK-002",
+      "title": "Create Type Definitions and Interfaces",
+      "description": "Define TypeScript types for download functionality, error responses, and API contracts",
+      "type": "feature",
+      "priority": "high",
+      "complexity": "S",
+      "estimated_hours": 1,
+      "dependencies": ["TASK-001"],
+      "status": "completed",
+      "subtasks": [
+        {
+          "id": "TASK-002.1",
+          "description": "Create download.types.ts with DownloadRequest, DownloadResponse, ErrorResponse types",
+          "acceptance_criteria": [
+            "All types defined with proper TypeScript interfaces",
+            "Error response format matches PRD specification"
+          ],
+          "files_to_modify": [
+            "backend/types/download.types.ts"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "TASK-002.2",
+          "description": "Create file.types.ts for file-related types (FileInfo, FileMetadata)",
+          "acceptance_criteria": [
+            "File metadata types defined",
+            "Types support version and platform information"
+          ],
+          "files_to_modify": [
+            "backend/types/file.types.ts"
+          ],
+          "status": "completed"
+        }
+      ],
+      "acceptance_criteria": [
+        "All types compile without errors",
+        "Types are exported and reusable",
+        "Error response format matches PRD JSON structure"
+      ],
+      "technical_notes": "Follow TypeScript best practices. Use enums for error codes. Make types strict and well-documented with JSDoc comments"
+    },
+    {
+      "id": "TASK-003",
+      "title": "Create File Utilities and Security Helpers",
+      "description": "Implement file system utilities for safe file access, path validation, and directory traversal prevention",
+      "type": "feature",
+      "priority": "high",
+      "complexity": "M",
+      "estimated_hours": 3,
+      "dependencies": ["TASK-002"],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": "TASK-003.1",
+          "description": "Create file.utils.ts with path validation and sanitization functions",
+          "acceptance_criteria": [
+            "Path validation prevents directory traversal attacks",
+            "File existence checking function implemented",
+            "Path sanitization works correctly"
+          ],
+          "files_to_modify": [
+            "backend/lib/utils/file.utils.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-003.2",
+          "description": "Implement getStoragePath() function that resolves storage directory from env",
+          "acceptance_criteria": [
+            "Function reads DOWNLOAD_STORAGE_PATH from environment",
+            "Returns absolute path to storage directory",
+            "Handles missing env variable gracefully"
+          ],
+          "files_to_modify": [
+            "backend/lib/utils/file.utils.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-003.3",
+          "description": "Create getFileInfo() function that returns file metadata (size, exists, path)",
+          "acceptance_criteria": [
+            "Function checks file existence",
+            "Returns file size and metadata",
+            "Handles errors properly"
+          ],
+          "files_to_modify": [
+            "backend/lib/utils/file.utils.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-003.4",
+          "description": "Add unit tests for file utilities (path validation, security checks)",
+          "acceptance_criteria": [
+            "Tests cover directory traversal prevention",
+            "Tests verify path sanitization",
+            "All edge cases tested"
+          ],
+          "files_to_modify": [
+            "backend/lib/utils/__tests__/file.utils.test.ts"
+          ],
+          "status": "pending"
+        }
+      ],
+      "acceptance_criteria": [
+        "All file utilities work correctly",
+        "Directory traversal attacks are prevented",
+        "Path validation is robust",
+        "Unit tests pass"
+      ],
+      "technical_notes": "Use path.join() and path.resolve() for safe path construction. Never use user input directly in file paths. Validate against whitelist of allowed directories"
+    },
+    {
+      "id": "TASK-004",
+      "title": "Implement Download Service",
+      "description": "Create download.service.ts with core business logic for file retrieval, version handling, and file streaming",
+      "type": "feature",
+      "priority": "high",
+      "complexity": "M",
+      "estimated_hours": 4,
+      "dependencies": ["TASK-003"],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": "TASK-004.1",
+          "description": "Create DownloadService class with getFileStream() method",
+          "acceptance_criteria": [
+            "Method returns readable stream for file",
+            "Handles file not found errors",
+            "Uses fs.createReadStream() for efficiency"
+          ],
+          "files_to_modify": [
+            "backend/lib/services/download.service.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-004.2",
+          "description": "Implement version resolution logic (support ?version=X.Y.Z and default to 'latest')",
+          "acceptance_criteria": [
+            "Version query parameter is parsed correctly",
+            "Default to 'latest' version if not specified",
+            "Version validation works"
+          ],
+          "files_to_modify": [
+            "backend/lib/services/download.service.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-004.3",
+          "description": "Implement getFileMetadata() method that returns file info (size, MIME type, filename)",
+          "acceptance_criteria": [
+            "Returns correct MIME type (application/x-apple-diskimage)",
+            "File size is accurate",
+            "Filename is properly formatted"
+          ],
+          "files_to_modify": [
+            "backend/lib/services/download.service.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-004.4",
+          "description": "Add error handling for file access errors, permission errors",
+          "acceptance_criteria": [
+            "All error cases are handled",
+            "Error messages are user-friendly",
+            "Errors are logged appropriately"
+          ],
+          "files_to_modify": [
+            "backend/lib/services/download.service.ts"
+          ],
+          "status": "pending"
+        }
+      ],
+      "acceptance_criteria": [
+        "Service can retrieve and stream DMG files",
+        "Version handling works correctly",
+        "Error handling is comprehensive",
+        "File metadata is accurate"
+      ],
+      "technical_notes": "Use Node.js fs module. Stream files to avoid loading entire file into memory. Use mime-types package for MIME type detection. Log all operations for debugging"
+    },
+    {
+      "id": "TASK-005",
+      "title": "Create API Route Handler",
+      "description": "Implement Next.js API route handler at /api/downloads/macos that handles GET requests and serves DMG files",
+      "type": "feature",
+      "priority": "high",
+      "complexity": "M",
+      "estimated_hours": 4,
+      "dependencies": ["TASK-004"],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": "TASK-005.1",
+          "description": "Create route.ts file in app/api/downloads/macos/ with GET handler",
+          "acceptance_criteria": [
+            "Route handler exports GET function",
+            "Handler receives request and returns response",
+            "Follows Next.js App Router conventions"
+          ],
+          "files_to_modify": [
+            "backend/app/api/downloads/macos/route.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-005.2",
+          "description": "Implement file streaming with proper HTTP headers (Content-Type, Content-Disposition, Content-Length)",
+          "acceptance_criteria": [
+            "File is streamed correctly",
+            "Headers are set properly",
+            "Content-Disposition triggers download",
+            "Content-Length is accurate"
+          ],
+          "files_to_modify": [
+            "backend/app/api/downloads/macos/route.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-005.3",
+          "description": "Implement error responses (404 for file not found, 500 for server errors) with JSON error format",
+          "acceptance_criteria": [
+            "404 returns proper JSON error response",
+            "500 returns proper JSON error response",
+            "Error format matches PRD specification"
+          ],
+          "files_to_modify": [
+            "backend/app/api/downloads/macos/route.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-005.4",
+          "description": "Add request logging (log download attempts with timestamp, IP, version)",
+          "acceptance_criteria": [
+            "All download requests are logged",
+            "Logs include relevant metadata",
+            "Logging doesn't impact performance"
+          ],
+          "files_to_modify": [
+            "backend/app/api/downloads/macos/route.ts"
+          ],
+          "status": "pending"
+        }
+      ],
+      "acceptance_criteria": [
+        "API endpoint responds to GET requests",
+        "DMG files are served correctly",
+        "Error responses follow PRD format",
+        "HTTP status codes are correct",
+        "File downloads work in browser"
+      ],
+      "technical_notes": "Use Next.js Response API. Set headers before streaming. Use NextResponse for proper response handling. Consider CORS headers if frontend is on different domain"
+    },
+    {
+      "id": "TASK-006",
+      "title": "Implement Rate Limiting Middleware",
+      "description": "Create rate limiting middleware to prevent abuse (10 downloads per IP per hour)",
+      "type": "feature",
+      "priority": "medium",
+      "complexity": "M",
+      "estimated_hours": 3,
+      "dependencies": ["TASK-005"],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": "TASK-006.1",
+          "description": "Create rate-limit.ts middleware with in-memory store for IP tracking",
+          "acceptance_criteria": [
+            "Middleware tracks requests per IP",
+            "Rate limit: 10 downloads per hour per IP",
+            "Returns 429 status when limit exceeded"
+          ],
+          "files_to_modify": [
+            "backend/middleware/rate-limit.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-006.2",
+          "description": "Integrate rate limiting into API route handler",
+          "acceptance_criteria": [
+            "Rate limiting is applied to download endpoint",
+            "Error response includes retry-after header",
+            "Rate limit resets after time window"
+          ],
+          "files_to_modify": [
+            "backend/app/api/downloads/macos/route.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-006.3",
+          "description": "Add configuration for rate limit values (env variables)",
+          "acceptance_criteria": [
+            "Rate limit values configurable via env",
+            "Defaults are sensible",
+            "Documentation updated"
+          ],
+          "files_to_modify": [
+            "backend/middleware/rate-limit.ts",
+            "backend/.env.example"
+          ],
+          "status": "pending"
+        }
+      ],
+      "acceptance_criteria": [
+        "Rate limiting works correctly",
+        "429 responses are returned when limit exceeded",
+        "Rate limit resets after time window",
+        "Configuration is flexible"
+      ],
+      "technical_notes": "Use in-memory Map for MVP. Consider Redis for production. Extract IP from request headers (X-Forwarded-For, X-Real-IP). Include Retry-After header in 429 responses"
+    },
+    {
+      "id": "TASK-007",
+      "title": "Update Frontend to Integrate Download API",
+      "description": "Modify Hero component to call the download API endpoint and handle download with proper error handling",
+      "type": "feature",
+      "priority": "high",
+      "complexity": "M",
+      "estimated_hours": 4,
+      "dependencies": ["TASK-005"],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": "TASK-007.1",
+          "description": "Create download utility function in frontend to handle API call and file download",
+          "acceptance_criteria": [
+            "Function calls /api/downloads/macos endpoint",
+            "Handles file download in browser",
+            "Returns promise for error handling"
+          ],
+          "files_to_modify": [
+            "frontend/src/utils/download.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-007.2",
+          "description": "Update Hero component to call download function on macOS button click",
+          "acceptance_criteria": [
+            "Button click triggers download",
+            "Loading state is shown during download",
+            "Error handling is implemented"
+          ],
+          "files_to_modify": [
+            "frontend/src/components/Hero.tsx"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-007.3",
+          "description": "Add error handling UI (toast notifications or error messages)",
+          "acceptance_criteria": [
+            "Errors are displayed to user",
+            "Error messages are user-friendly",
+            "UI doesn't break on errors"
+          ],
+          "files_to_modify": [
+            "frontend/src/components/Hero.tsx"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-007.4",
+          "description": "Add loading state during download (disable button, show spinner)",
+          "acceptance_criteria": [
+            "Button shows loading state",
+            "Button is disabled during download",
+            "Loading indicator is visible"
+          ],
+          "files_to_modify": [
+            "frontend/src/components/Hero.tsx"
+          ],
+          "status": "pending"
+        }
+      ],
+      "acceptance_criteria": [
+        "Clicking macOS download button triggers download",
+        "Download works in browser",
+        "Errors are handled gracefully",
+        "Loading state is visible",
+        "User experience is smooth"
+      ],
+      "technical_notes": "Use fetch API. Create blob from response and trigger download using URL.createObjectURL(). Handle CORS if needed. Consider using existing toast library (sonner) for error messages"
+    },
+    {
+      "id": "TASK-008",
+      "title": "Testing, Documentation, and Final Polish",
+      "description": "Add integration tests, update documentation, create sample DMG file for testing, and ensure everything works end-to-end",
+      "type": "test",
+      "priority": "medium",
+      "complexity": "M",
+      "estimated_hours": 2,
+      "dependencies": ["TASK-007"],
+      "status": "pending",
+      "subtasks": [
+        {
+          "id": "TASK-008.1",
+          "description": "Create integration test for API endpoint (test file download, error cases)",
+          "acceptance_criteria": [
+            "Tests verify file download works",
+            "Tests verify 404 error handling",
+            "Tests verify rate limiting",
+            "All tests pass"
+          ],
+          "files_to_modify": [
+            "backend/app/api/downloads/macos/__tests__/route.test.ts"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-008.2",
+          "description": "Create sample/test DMG file in storage directory for development",
+          "acceptance_criteria": [
+            "Test DMG file exists",
+            "File can be downloaded via API",
+            "File is properly named"
+          ],
+          "files_to_modify": [
+            "backend/storage/downloads/macos/dataprobe-latest.dmg"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-008.3",
+          "description": "Update README with setup instructions, API documentation, and usage examples",
+          "acceptance_criteria": [
+            "README includes setup instructions",
+            "API endpoint is documented",
+            "Environment variables are documented",
+            "Usage examples provided"
+          ],
+          "files_to_modify": [
+            "backend/README.md"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "TASK-008.4",
+          "description": "Verify end-to-end flow: frontend button → API → file download",
+          "acceptance_criteria": [
+            "Complete flow works from frontend to backend",
+            "No console errors",
+            "Download completes successfully",
+            "Error cases handled properly"
+          ],
+          "files_to_modify": [],
+          "status": "pending"
+        }
+      ],
+      "acceptance_criteria": [
+        "All tests pass",
+        "Documentation is complete",
+        "End-to-end flow works",
+        "Code is production-ready"
+      ],
+      "technical_notes": "Use Jest or Vitest for testing. Mock file system operations. Test both success and error paths. Document API in README with curl examples"
+    }
+  ],
+  "task_dependencies_graph": "TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-005 → [TASK-006, TASK-007] → TASK-008"
+}
+

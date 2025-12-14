@@ -1,0 +1,150 @@
+---
+description: Data engineering and analytics domain rules
+globs:
+  - "**/dbt/**/*"
+  - "**/dagster/**/*"
+  - "**/models/**/*"
+  - "**/analytics/**/*"
+  - "**/*.sql"
+  - "**/data/**/*"
+  - "**/warehouse/**/*"
+  - "**/lakehouse/**/*"
+alwaysApply: false
+---
+
+# Data Domain Rules
+
+> **Note**: Customize this template for your data stack. Examples below use dbt and Dagster, but adapt to your tools (Airflow, Prefect, Spark, etc.)
+
+## DATA SOURCES
+
+> **Customize**: List your supported data sources and warehouses
+- Example: Athena, Redshift, BigQuery, Snowflake
+- Document any excluded sources or constraints
+
+## TRANSFORMATION TOOL STANDARDS
+
+> **Customize**: Adapt for your tool (dbt, Airflow, Prefect, custom scripts)
+
+### Model Organization (dbt example)
+
+- Follow existing schema patterns: `cleaned/`, `sources/`, `staging/`
+- Use `generate_schema_name` macro for schema naming consistency
+- Reference sources via `sources.yml` definitions
+
+### SQL Best Practices
+
+- Use CTEs for readability
+- Include column comments/documentation
+- Follow existing naming conventions (snake_case)
+- Add `dbt_utils` macros where appropriate
+- Test data quality with dbt tests
+
+### Model Structure
+
+```sql
+-- Related to: TASK-XXX - [Task Title]
+-- PRD: docs/prd/[feature-name]-prd.md
+
+{{ config(
+    materialized='table',
+    schema='cleaned'
+) }}
+
+WITH source_data AS (
+    SELECT ...
+    FROM {{ source('schema', 'table') }}
+),
+
+cleaned_data AS (
+    SELECT ...
+    FROM source_data
+    WHERE ...
+)
+
+SELECT * FROM cleaned_data
+```
+
+## ORCHESTRATION STANDARDS
+
+> **Customize**: Adapt for your orchestrator (Dagster, Airflow, Prefect, etc.)
+
+### Asset/Job Organization
+
+- Group related assets/jobs logically
+- Use descriptive keys/names
+- Follow existing naming patterns
+- Document dependencies clearly
+
+### Pipeline Structure
+
+- Keep pipelines focused and single-purpose
+- Use config schemas for flexibility
+- Handle errors gracefully with retries
+- Log meaningful information
+
+## DATA QUALITY
+
+- Validate data types and formats
+- Check for nulls where unexpected
+- Ensure referential integrity
+- Monitor data freshness
+- Document data lineage
+
+## PERFORMANCE
+
+- Use incremental models where possible
+- Optimize query patterns (avoid full scans)
+- Consider partitioning strategies
+- Monitor query execution times
+- Use appropriate materialization strategies
+
+## TESTING
+
+> **Customize**: Adapt for your testing framework
+- Write tests for critical models/transformations
+- Test data transformations
+- Validate business logic
+- Check for data anomalies
+- Use Great Expectations, dbt tests, or custom validations
+
+## DOCUMENTATION
+
+### Model Documentation (dbt example)
+
+- **One YAML file per SQL model**: Each model should have its own `.yml` file
+  - Example: `users.sql` → `users.yml`
+  - Place YAML file in the same directory as the SQL model
+- Each YAML file should contain:
+  - Model description
+  - Column descriptions
+  - Data tests (unique, not_null, relationships, etc.)
+  - Custom tests as needed
+- Explain business logic in SQL comments
+- Document data sources and lineage
+- Keep README files updated
+
+### YAML File Structure Example
+
+```yaml
+version: 2
+
+models:
+  - name: users
+    description: "Cleaned user data with deduplication"
+    columns:
+      - name: user_id
+        description: "Unique user identifier"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "User email address"
+        tests:
+          - unique
+          - not_null
+      - name: created_at
+        description: "Account creation timestamp"
+        tests:
+          - not_null
+```

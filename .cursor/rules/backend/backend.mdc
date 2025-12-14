@@ -1,0 +1,113 @@
+---
+description: Backend API and service development standards
+globs:
+  - "**/api/**/*"
+  - "**/routes/**/*"
+  - "**/controllers/**/*"
+  - "**/services/**/*"
+  - "**/middleware/**/*"
+  - "**/server/**/*"
+  - "**/*.py"
+  - "**/*.go"
+  - "**/*.java"
+  - "**/*.rs"
+  - "**/*.ts"
+  - "**/*.js"
+alwaysApply: false
+---
+
+# Backend Domain Rules
+
+> **Note**: Customize this template for your backend stack. Examples are framework-agnostic but adapt to your specific framework (Express, FastAPI, Spring, etc.)
+
+## API DEVELOPMENT STANDARDS
+
+### Structure
+
+Frame solutions in terms of:
+- Routes and endpoints
+- Request/response schemas
+- Middleware pipeline
+- Data flow
+
+### Requirements
+
+- **Input Validation**: Validate all inputs before processing
+- **Error Handling**: Use appropriate HTTP status codes
+  - 400: Bad Request (validation errors)
+  - 401: Unauthorized (authentication)
+  - 403: Forbidden (authorization)
+  - 404: Not Found
+  - 500: Internal Server Error (unexpected)
+- **Logging**: Log requests, responses, and errors
+- **Rate Limiting**: Consider rate limits for public APIs
+- **Authentication/Authorization**: Check permissions appropriately
+- **Documentation**: OpenAPI/Swagger for all endpoints
+
+### Code Organization
+
+```
+backend/
+├── routes/          # API route definitions
+├── controllers/     # Business logic handlers
+├── services/        # Core business logic
+├── models/          # Data models/schemas
+├── middleware/      # Auth, logging, validation
+└── utils/           # Helper functions
+```
+
+### Error Response Format
+
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable message",
+    "details": {}
+  }
+}
+```
+
+## SECURITY
+
+- Never expose sensitive data in logs
+- Use environment variables for secrets
+- Validate and sanitize all inputs
+- Use parameterized queries (prevent SQL injection)
+- Implement proper authentication/authorization
+- Use HTTPS in production
+- Validate file uploads (type, size, content)
+
+## PERFORMANCE
+
+- Use connection pooling for databases
+- Implement caching where appropriate
+- Optimize database queries (avoid N+1)
+- Use async/await for I/O operations
+- Monitor response times
+- Consider pagination for large datasets
+
+## TESTING
+
+- Unit tests for business logic
+- Integration tests for API endpoints
+- Test error cases and edge cases
+- Mock external dependencies
+- Test authentication/authorization
+
+## DOCUMENTATION
+
+- Document all API endpoints
+- Include request/response examples
+- Document error codes and meanings
+- Keep OpenAPI spec updated
+- Document environment variables
+
+## CODE QUALITY
+
+- Follow language-specific style guides
+- Use type hints/annotations
+- Keep functions focused (single responsibility)
+- Extract reusable logic
+- Add docstrings for public functions
+- Handle exceptions explicitly

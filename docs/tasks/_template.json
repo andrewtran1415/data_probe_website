@@ -1,0 +1,41 @@
+{
+  "feature": "",
+  "prd_reference": "docs/prd/[name]-prd.md",
+  "created_at": "",
+  "status": "planning",
+  "summary": {
+    "total_tasks": 0,
+    "total_subtasks": 0,
+    "estimated_total_hours": 0,
+    "completed_tasks": 0
+  },
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "",
+      "description": "",
+      "type": "setup|feature|refactor|test|docs",
+      "priority": "high|medium|low",
+      "complexity": "S|M|L|XL",
+      "estimated_hours": 0,
+      "dependencies": [],
+      "status": "pending|in-progress|completed|blocked",
+      "subtasks": [
+        {
+          "id": "TASK-001.1",
+          "description": "",
+          "acceptance_criteria": [],
+          "files_to_modify": [],
+          "status": "pending|completed"
+        }
+      ],
+      "acceptance_criteria": [
+        "Specific testable criterion",
+        "Another criterion"
+      ],
+      "technical_notes": "Implementation approach, gotchas, considerations"
+    }
+  ],
+  "task_dependencies_graph": "Visual representation if complex (optional)"
+}
+

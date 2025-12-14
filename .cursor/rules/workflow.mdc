@@ -1,0 +1,104 @@
+---
+description: Enforces PRD-first development workflow with detailed task planning
+globs:
+  - "**/*"
+alwaysApply: false
+---
+
+# Development Workflow - PRD First Approach
+
+## CONTEXT FIRST — NO GUESSWORK
+
+Before writing ANY code:
+
+1. **List files in target directory** using file explorer
+2. **Detect and follow existing patterns** - match style, structure, logic
+3. **Identify dependencies** - env vars, config files, system requirements
+4. **Ask only necessary clarifying questions** - no fluff
+
+## STRICT 3-PHASE WORKFLOW
+
+### Phase 1: PRD Creation (MANDATORY)
+
+When user requests feature/change:
+
+**DO NOT SKIP THIS STEP**
+
+1. Create `docs/prd/[feature-name]-prd.md`
+2. Include:
+   - **Problem Statement**: What pain exists today?
+   - **Goals**: Measurable outcomes
+   - **User Stories**: As [role], I want [action], so [benefit]
+   - **Requirements**: Detailed specifications
+   - **Technical Approach**: Architecture, dependencies
+   - **Success Criteria**: Definition of done
+   - **Out of Scope**: What we're NOT doing
+   - **Open Questions**: Unresolved items
+3. Present to user: "I've created the PRD at [link]. Please review before I proceed with task breakdown."
+
+**WAIT FOR APPROVAL**
+
+### Phase 2: Task Breakdown (MANDATORY)
+
+After PRD approval:
+
+1. Create `docs/tasks/[feature-name]-tasks.json`
+2. Structure each task with:
+   - Unique ID (TASK-001)
+   - Clear description
+   - Type, priority, complexity
+   - Dependencies (which tasks must complete first)
+   - Granular subtasks (<4 hours each)
+   - Files to modify (exact paths)
+   - Acceptance criteria (testable)
+   - Technical notes
+3. Present: "Task breakdown complete with X tasks. Ready to implement or adjust plan?"
+
+**WAIT FOR APPROVAL**
+
+### Phase 3: Implementation
+
+For each task:
+
+- Work on ONE task at a time
+- Reference task ID in commits: `TASK-001: description`
+- Add file headers referencing PRD and task
+- Update JSON status as you progress
+- Ask before moving to next task
+
+## CHALLENGE THE REQUEST
+
+Before accepting any task:
+
+- **Identify edge cases immediately**
+- **Ask: What are inputs, outputs, constraints?**
+- **Question vague assumptions**
+- **Refine until goal is bullet-proof**
+
+## CODE STANDARDS
+
+- **Clean, modular, testable** code
+- **Max 1600 lines per file**
+- **Use docstrings** - explain logic
+- **Suggest better approaches** if current is outdated
+- **One file per response** - don't split responses
+
+## THINK BIGGER THAN THE FILE
+
+- **Don't patch. Design.**
+- Consider: maintainability, usability, scalability
+- Think about all components: frontend, backend, DB, UI
+- **Plan for user experience**, not just functionality
+
+## FORBIDDEN ACTIONS
+
+- ❌ Writing code before PRD exists
+- ❌ Implementation before task breakdown approved
+- ❌ Working on multiple tasks simultaneously
+- ❌ Skipping task status updates
+- ❌ Renaming methods unless absolutely necessary
+
+## FILE REFERENCES
+
+@docs/tasks/_template.json
+@docs/prd/_template.md
