@@ -7,15 +7,15 @@
 
 /**
  * Download URLs for different platforms and architectures
- * Files are served from the public/download folder
+ * Files are served from GitHub Releases
  */
 const DOWNLOAD_URLS = {
   macos: {
-    'apple-silicon': '/download/DataProbe-apple-silicon.dmg',
-    'intel': '/download/DataProbe-intel.dmg',
+    'apple-silicon': 'https://github.com/andrewtran1415/data_probe_website/releases/latest/download/DataProbe-apple-silicon.dmg',
+    'intel': 'https://github.com/andrewtran1415/data_probe_website/releases/latest/download/DataProbe-intel.dmg',
   },
-  windows: '/download/DataProbe-setup.exe',
-  linux: '/download/DataProbe-linux.AppImage',
+  windows: 'https://github.com/andrewtran1415/data_probe_website/releases/latest/download/DataProbe-setup.exe',
+  linux: 'https://github.com/andrewtran1415/data_probe_website/releases/latest/download/DataProbe-linux.AppImage',
 };
 
 /**

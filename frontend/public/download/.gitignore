@@ -1,0 +1,5 @@
+# Ignore DMG files - they're too large for GitHub (>100MB limit)
+# Upload these to GitHub Releases instead
+*.dmg
+*.exe
+*.AppImage
