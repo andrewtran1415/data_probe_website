@@ -5,7 +5,10 @@
       "Bash(npm install:*)",
       "Bash(npx tsc --noEmit --skipLibCheck:*)",
       "Bash(node:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ]
   }
 }
