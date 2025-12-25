@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, Mail, CreditCard } from 'lucide-react';
+import { ArrowLeft, Check, Mail } from 'lucide-react';
 import { DataProbeLogo } from './DataProbeLogo';
 
 interface PurchaseProps {
@@ -93,7 +93,7 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
             email: email,
             plan: plan
           }),
-          successCallback: function(data: any) {
+          successCallback: function() {
             handlePurchaseSuccess();
             setIsProcessing(false);
           },

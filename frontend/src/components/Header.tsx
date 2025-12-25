@@ -3,11 +3,7 @@ import { Download } from 'lucide-react';
 import { SPACING } from '@/constants/theme';
 import { NAVIGATION } from '@/constants/strings';
 
-interface HeaderProps {
-  onDownloadClick?: () => void;
-}
-
-export function Header({ onDownloadClick }: HeaderProps) {
+export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-gray-100 z-50">
       <div className={`${SPACING.container.maxWidth} ${SPACING.container.center} ${SPACING.section.horizontal}`}>

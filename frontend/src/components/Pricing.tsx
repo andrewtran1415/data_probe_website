@@ -1,10 +1,6 @@
 import { Check, Download, Key } from 'lucide-react';
 
-interface PricingProps {
-  onPlanSelect: (plan: 'trial' | 'lifetime') => void;
-}
-
-export function Pricing({ onPlanSelect }: PricingProps) {
+export function Pricing() {
   return (
     <section id="pricing" className="py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">

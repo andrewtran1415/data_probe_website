@@ -21,14 +21,14 @@ const DOWNLOAD_URLS = {
 /**
  * Download a file from a direct URL
  * @param platform - Platform name ('macos' | 'windows' | 'linux')
- * @param version - Optional version string (not used with direct URLs)
+ * @param _version - Optional version string (not used with direct URLs)
  * @param architecture - Optional architecture ('intel' | 'apple-silicon' for macOS)
  * @returns Promise that resolves when download starts
  * @throws Error if download fails
  */
 export async function downloadFile(
   platform: 'macos' | 'windows' | 'linux',
-  version?: string,
+  _version?: string,
   architecture?: 'intel' | 'apple-silicon'
 ): Promise<void> {
   try {
