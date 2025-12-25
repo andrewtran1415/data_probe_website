@@ -4,8 +4,6 @@ import { DataProbeLogo } from './DataProbeLogo';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { apiClient } from '@/lib/api';
-import { toast } from 'sonner';
 
 interface AuthProps {
   onBack: () => void;
@@ -75,72 +73,29 @@ export function Auth({ onBack, onSuccess }: AuthProps) {
 
     setIsLoading(true);
     
-    try {
-      let response;
-      if (isLogin) {
-        response = await apiClient.login(formData.email, formData.password);
-      } else {
-        response = await apiClient.register(
-          formData.email,
-          formData.username,
-          formData.password
-        );
-      }
-
-      if (response.success && response.data) {
-        // Store tokens
-        localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-
-        toast.success(isLogin ? 'Login successful!' : 'Account created successfully!');
-        
-        if (onSuccess) {
-          onSuccess();
-        }
-      } else {
-        toast.error(response.error || 'Authentication failed');
-        if (response.errors) {
-          // Convert array of errors to single string per field
-          const formattedErrors: Record<string, string> = {};
-          Object.entries(response.errors).forEach(([key, messages]) => {
-            formattedErrors[key] = messages[0]; // Take first error message
-          });
-          setErrors(formattedErrors);
-        }
-      }
-    } catch (error) {
-      toast.error('An error occurred. Please try again.');
-      console.error('Auth error:', error);
-    } finally {
+    // Simulate API call
+    setTimeout(() => {
       setIsLoading(false);
-    }
+      // In production, this would call your backend API
+      console.log(isLogin ? 'Login' : 'Sign up', formData);
+      if (onSuccess) {
+        onSuccess();
+      }
+    }, 1500);
   };
 
-  const handleGoogleAuth = async () => {
+  const handleGoogleAuth = () => {
     setIsLoading(true);
-    
-    try {
-      // In production, implement Google OAuth flow
-      // For now, this is a placeholder
-      toast.info('Google OAuth integration coming soon');
-      
-      // Example: After getting Google token from OAuth flow
-      // const response = await apiClient.googleAuth(googleId, email, name);
-      // if (response.success && response.data) {
-      //   localStorage.setItem('accessToken', response.data.accessToken);
-      //   localStorage.setItem('refreshToken', response.data.refreshToken);
-      //   localStorage.setItem('user', JSON.stringify(response.data.user));
-      //   if (onSuccess) {
-      //     onSuccess();
-      //   }
-      // }
-    } catch (error) {
-      toast.error('Google authentication failed');
-      console.error('Google OAuth error:', error);
-    } finally {
+    // In production, this would redirect to Google OAuth
+    // For now, simulate the flow
+    setTimeout(() => {
       setIsLoading(false);
-    }
+      console.log('Google OAuth initiated');
+      // window.location.href = '/api/auth/google';
+      if (onSuccess) {
+        onSuccess();
+      }
+    }, 1000);
   };
 
   return (

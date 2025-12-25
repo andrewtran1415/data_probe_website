@@ -2,8 +2,8 @@
  * Shared TypeScript types and interfaces
  */
 
-export type PlanType = 'trial' | 'monthly' | 'yearly';
-export type PageType = 'home' | 'purchase' | 'auth';
+export type PlanType = 'trial' | 'lifetime';
+export type PageType = 'home' | 'purchase';
 
 export interface Connector {
   name: string;

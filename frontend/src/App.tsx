@@ -10,7 +10,6 @@ import { Footer } from './components/Footer';
 import { AnimatedValidation } from './components/AnimatedValidation';
 import { Pricing } from './components/Pricing';
 import { Purchase } from './components/Purchase';
-import { Auth } from './components/Auth';
 import { Toaster } from './components/ui/sonner';
 import type { PageType, PlanType } from '@/types';
 
@@ -37,23 +36,11 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Handle navigation events
-  useEffect(() => {
-    const handleNavigate = (event: CustomEvent) => {
-      if (event.detail === 'auth') {
-        setCurrentPage('auth');
-        window.scrollTo(0, 0);
-      }
-    };
-
-    window.addEventListener('navigate', handleNavigate as EventListener);
-    return () => window.removeEventListener('navigate', handleNavigate as EventListener);
-  }, []);
 
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedPlan, setSelectedPlan] = useState<PlanType>('trial');
 
-  const handlePurchaseClick = (plan: 'trial' | 'monthly' | 'yearly') => {
+  const handlePurchaseClick = (plan: 'trial' | 'lifetime') => {
     setSelectedPlan(plan);
     setCurrentPage('purchase');
     window.scrollTo(0, 0);
@@ -68,25 +55,10 @@ export default function App() {
     return <Purchase plan={selectedPlan} onBack={handleBackToHome} />;
   }
 
-  if (currentPage === 'auth') {
-    return (
-      <div className="min-h-screen bg-white">
-        <Toaster />
-        <Auth 
-          onBack={handleBackToHome}
-          onSuccess={() => {
-            // Handle successful authentication
-            handleBackToHome();
-          }}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-white">
       <Toaster />
-      <Header />
+      <Header onDownloadClick={() => handlePurchaseClick('trial')} />
       <Hero onDownloadClick={() => handlePurchaseClick('trial')} />
       <AnimatedValidation />
       <Features />

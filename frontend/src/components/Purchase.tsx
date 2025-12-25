@@ -3,7 +3,7 @@ import { ArrowLeft, Check, Mail, CreditCard } from 'lucide-react';
 import { DataProbeLogo } from './DataProbeLogo';
 
 interface PurchaseProps {
-  plan: 'trial' | 'monthly' | 'yearly';
+  plan: 'trial' | 'lifetime';
   onBack: () => void;
 }
 
@@ -14,22 +14,16 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
 
   const planDetails = {
     trial: {
-      title: 'Start Free Trial',
+      title: 'Get Beta Access',
       price: '$0',
-      duration: '7 days',
-      description: 'Full access to all features for 7 days',
+      duration: 'Free during beta',
+      description: 'Full access to all features while in beta',
     },
-    monthly: {
-      title: 'Monthly License',
-      price: '$9',
-      duration: 'per month',
-      description: 'Valid for one month, cancel anytime',
-    },
-    yearly: {
-      title: 'Yearly License',
-      price: '$89',
-      duration: 'per year',
-      description: 'Best value - Save $19 compared to monthly',
+    lifetime: {
+      title: 'Claim Lifetime License',
+      price: '$0',
+      duration: 'Free during beta',
+      description: 'Lock in free lifetime access as an early supporter',
     },
   };
 
@@ -87,19 +81,19 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
         setIsProcessing(false);
       }, 1500);
     } else {
-      // Open Paddle checkout for paid plans
+      // Open Paddle checkout for lifetime plan
       if (window.Paddle) {
-        // Replace these product IDs with your actual Paddle product IDs
-        const productId = plan === 'monthly' ? 'MONTHLY_PRODUCT_ID' : 'YEARLY_PRODUCT_ID';
-        
+        // Replace this product ID with your actual Paddle product ID
+        const productId = 'LIFETIME_PRODUCT_ID';
+
         window.Paddle.Checkout.open({
           product: productId,
           email: email,
-          passthrough: JSON.stringify({ 
+          passthrough: JSON.stringify({
             email: email,
-            plan: plan 
+            plan: plan
           }),
-          successCallback: function() {
+          successCallback: function(data: any) {
             handlePurchaseSuccess();
             setIsProcessing(false);
           },
@@ -122,9 +116,9 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
             <div className="w-20 h-20 bg-gradient-to-br from-[#D75A4A] to-[#ff7a68] rounded-full flex items-center justify-center mx-auto mb-6">
               <Check className="w-10 h-10 text-white" />
             </div>
-            
+
             <h2 className="text-slate-900 mb-4">
-              {plan === 'trial' ? 'Trial Activated!' : 'Purchase Successful!'}
+              {plan === 'trial' ? 'Beta Access Activated!' : 'Lifetime Access Claimed!'}
             </h2>
             
             <p className="text-slate-600 mb-8">
@@ -220,20 +214,19 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
               </div>
             </div>
 
-            {plan === 'yearly' && (
-              <div className="mt-6 bg-gradient-to-r from-[#D75A4A]/10 to-[#ff7a68]/10 rounded-lg p-4">
-                <p className="text-sm text-[#D75A4A]">
-                  💰 You're saving $19 with the yearly plan!
-                </p>
-              </div>
-            )}
           </div>
 
           {/* Purchase Form */}
           <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-slate-900 mb-6">
-              {plan === 'trial' ? 'Start Your Free Trial' : 'Complete Your Purchase'}
-            </h2>
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full mb-4">
+                <span className="font-semibold text-xs">BETA</span>
+                <span className="text-xs">Free during beta</span>
+              </div>
+              <h2 className="text-slate-900">
+                {plan === 'trial' ? 'Get Your Beta Access' : 'Claim Free Lifetime Access'}
+              </h2>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -257,35 +250,28 @@ export function Purchase({ plan, onBack }: PurchaseProps) {
                 </p>
               </div>
 
-              {plan !== 'trial' && (
-                <div className="bg-slate-50 rounded-lg p-4 flex items-start gap-3">
-                  <CreditCard className="w-5 h-5 text-slate-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm text-slate-700">
-                      You'll be redirected to our secure payment processor (Paddle) to complete your purchase.
-                    </p>
-                  </div>
-                </div>
-              )}
+              <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                <p className="text-sm text-blue-800">
+                  <strong>Beta Special:</strong> {plan === 'trial' ? 'Get immediate access to all features completely free during beta.' : 'Lock in free lifetime access now. This offer is only available during beta.'}
+                </p>
+              </div>
 
               <button
                 type="submit"
                 disabled={isProcessing}
                 className="w-full bg-gradient-to-r from-[#D75A4A] to-[#ff7a68] text-white py-3 px-6 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
-                {isProcessing 
-                  ? 'Processing...' 
-                  : plan === 'trial' 
-                    ? 'Start Free Trial' 
-                    : `Continue to Payment - ${currentPlan.price}`
+                {isProcessing
+                  ? 'Processing...'
+                  : plan === 'trial'
+                    ? 'Get Free Beta Access'
+                    : 'Claim Free Lifetime Access'
                 }
               </button>
 
-              {plan !== 'trial' && (
-                <p className="text-xs text-center text-slate-500">
-                  Secure payment powered by Paddle. 30-day money-back guarantee.
-                </p>
-              )}
+              <p className="text-xs text-center text-slate-500">
+                No payment required • Free during beta • No credit card needed
+              </p>
             </form>
           </div>
         </div>

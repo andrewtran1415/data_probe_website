@@ -1,38 +1,21 @@
-import { useState } from 'react';
-import { Download, Apple, Loader2 } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { SPACING, TYPOGRAPHY } from '@/constants/theme';
 import { HERO } from '@/constants/strings';
-import { downloadFile } from '@/utils/download';
-import { toast } from 'sonner';
+import { MacDownloadButton } from './MacDownloadButton';
 
 interface HeroProps {
   onDownloadClick: () => void;
 }
 
 export function Hero({ onDownloadClick }: HeroProps) {
-  const [isDownloadingMacOS, setIsDownloadingMacOS] = useState(false);
-
-  const handleMacOSDownload = async () => {
-    setIsDownloadingMacOS(true);
-    try {
-      await downloadFile('macos');
-      toast.success('Download started!', {
-        description: 'Your macOS installer is downloading.',
-      });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to download file';
-      toast.error('Download failed', {
-        description: errorMessage,
-      });
-    } finally {
-      setIsDownloadingMacOS(false);
-    }
-  };
-
   return (
     <section className={`pt-32 pb-20 ${SPACING.section.horizontal} bg-[#fafafa]`}>
       <div className={`${SPACING.container.maxWidth} ${SPACING.container.center}`}>
         <div className="text-center max-w-5xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-6">
+            <span className="font-semibold text-sm">BETA</span>
+            <span className="text-sm">Free while in beta - Get lifetime access now</span>
+          </div>
           <h1 className={`${TYPOGRAPHY.heading.h1} mb-8 leading-tight`}>
             <span className="text-gray-900">{HERO.title.prefix}</span>
             <span className="text-[#D75A4A]">{HERO.title.highlight}</span>
@@ -44,23 +27,7 @@ export function Hero({ onDownloadClick }: HeroProps) {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-            <button
-              onClick={handleMacOSDownload}
-              disabled={isDownloadingMacOS}
-              className="px-7 py-3 bg-[#D75A4A] text-white rounded-md hover:bg-[#c54d3d] transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isDownloadingMacOS ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Downloading...
-                </>
-              ) : (
-                <>
-                  <Apple className="w-5 h-5" />
-                  {HERO.download.macos}
-                </>
-              )}
-            </button>
+            <MacDownloadButton variant="primary" className="px-2 py-1" />
             <button
               className="px-7 py-3 bg-white text-gray-900 rounded-md border border-gray-200 hover:border-gray-300 transition-colors flex items-center gap-2 relative disabled:opacity-60 disabled:cursor-not-allowed"
               onClick={onDownloadClick}
@@ -72,8 +39,8 @@ export function Hero({ onDownloadClick }: HeroProps) {
             </button>
           </div>
           
-          <p className="text-sm text-gray-500">
-            {HERO.download.free}
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-blue-600">Beta Special:</span> Everything is completely free during beta. Download now and claim free lifetime access.
           </p>
         </div>
         

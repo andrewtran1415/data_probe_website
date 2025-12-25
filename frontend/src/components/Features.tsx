@@ -1,5 +1,5 @@
 import { Database, Network, Zap, Shield, CheckCircle, Workflow } from 'lucide-react';
-import { SPACING, TYPOGRAPHY } from '@/constants/theme';
+import { COLORS, SPACING, TYPOGRAPHY } from '@/constants/theme';
 import { FEATURES } from '@/constants/strings';
 import type { Feature } from '@/types';
 

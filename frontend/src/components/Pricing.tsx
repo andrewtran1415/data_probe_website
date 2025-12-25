@@ -1,7 +1,7 @@
 import { Check, Download, Key } from 'lucide-react';
 
 interface PricingProps {
-  onPlanSelect: (plan: 'trial' | 'monthly' | 'yearly') => void;
+  onPlanSelect: (plan: 'trial' | 'lifetime') => void;
 }
 
 export function Pricing({ onPlanSelect }: PricingProps) {
@@ -9,25 +9,28 @@ export function Pricing({ onPlanSelect }: PricingProps) {
     <section id="pricing" className="py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
+            <span className="font-semibold text-sm">BETA</span>
+            <span className="text-sm">Everything is FREE during beta</span>
+          </div>
           <h2 className="text-slate-900 mb-4">
             Simple, Transparent Pricing
           </h2>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Start with a free trial, then choose the plan that works best for you. 
-            No subscriptions, no hidden fees.
+            We're currently in beta. Download and use all features completely free while we perfect the product.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Free Trial */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Beta Access */}
           <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-slate-200 hover:border-slate-300 transition-all duration-300">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
                 <Download className="w-6 h-6 text-slate-600" />
               </div>
               <div>
-                <h3 className="text-slate-900">Free Trial</h3>
-                <p className="text-sm text-slate-500">Try before you buy</p>
+                <h3 className="text-slate-900">Beta Access</h3>
+                <p className="text-sm text-slate-500">Free during beta</p>
               </div>
             </div>
 
@@ -35,7 +38,7 @@ export function Pricing({ onPlanSelect }: PricingProps) {
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl text-slate-900">$0</span>
               </div>
-              <p className="text-sm text-slate-500 mt-2">for 7 days</p>
+              <p className="text-sm text-slate-500 mt-2">Free forever (beta)</p>
             </div>
 
             <ul className="space-y-4 mb-8">
@@ -57,29 +60,38 @@ export function Pricing({ onPlanSelect }: PricingProps) {
               </li>
             </ul>
 
-            <button className="w-full bg-slate-900 text-white py-3 px-6 rounded-lg hover:bg-slate-800 transition-colors duration-200" onClick={() => onPlanSelect('trial')}>
-              Start Free Trial
+            <button
+              className="w-full bg-slate-900 text-white py-3 px-6 rounded-lg opacity-50 cursor-not-allowed transition-colors duration-200"
+              disabled
+            >
+              Get Free Beta Access
             </button>
           </div>
 
-          {/* Monthly License */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-slate-200 hover:border-slate-300 transition-all duration-300">
+          {/* Early Supporter */}
+          <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-[#D75A4A] relative hover:shadow-2xl transition-all duration-300">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <div className="bg-gradient-to-r from-[#D75A4A] to-[#ff7a68] text-white px-4 py-1 rounded-full text-sm shadow-lg">
+                Early Supporter
+              </div>
+            </div>
+
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
-                <Key className="w-6 h-6 text-slate-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-[#D75A4A] to-[#ff7a68] rounded-xl flex items-center justify-center">
+                <Key className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h3 className="text-slate-900">Monthly License</h3>
-                <p className="text-sm text-slate-500">Pay as you go</p>
+                <h3 className="text-slate-900">Lifetime License</h3>
+                <p className="text-sm text-slate-500">Support development</p>
               </div>
             </div>
 
             <div className="mb-6">
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl text-slate-900">$9</span>
-                <span className="text-slate-500">/month</span>
+                <span className="text-5xl text-slate-900">$0</span>
+                <span className="text-lg text-slate-400 line-through">$9</span>
               </div>
-              <p className="text-sm text-slate-500 mt-2">$108/year total</p>
+              <p className="text-sm text-blue-600 mt-2">Free during beta, lock in lifetime access</p>
             </div>
 
             <ul className="space-y-4 mb-8">
@@ -89,7 +101,7 @@ export function Pricing({ onPlanSelect }: PricingProps) {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Valid for one month</span>
+                <span className="text-slate-600">Lifetime access</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
@@ -101,69 +113,15 @@ export function Pricing({ onPlanSelect }: PricingProps) {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Cancel anytime</span>
+                <span className="text-slate-600">Free updates forever</span>
               </li>
             </ul>
 
-            <button className="w-full bg-slate-900 text-white py-3 px-6 rounded-lg hover:bg-slate-800 transition-colors duration-200" onClick={() => onPlanSelect('monthly')}>
-              Purchase Monthly
-            </button>
-          </div>
-
-          {/* Yearly License */}
-          <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-[#D75A4A] relative hover:shadow-2xl transition-all duration-300">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <div className="bg-gradient-to-r from-[#D75A4A] to-[#ff7a68] text-white px-4 py-1 rounded-full text-sm shadow-lg">
-                Save $19 (18% off)
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-[#D75A4A] to-[#ff7a68] rounded-xl flex items-center justify-center">
-                <Key className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-slate-900">Yearly License</h3>
-                <p className="text-sm text-slate-500">Best Value</p>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl text-slate-900">$89</span>
-                <span className="text-slate-500">/year</span>
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-sm text-slate-400 line-through">$108</span>
-                <span className="text-sm text-[#D75A4A]">Save $19</span>
-              </div>
-            </div>
-
-            <ul className="space-y-4 mb-8">
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Everything in Free Trial</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Valid for one full year</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Activation code via email</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Priority email support</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-[#D75A4A] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-600">Free updates all year</span>
-              </li>
-            </ul>
-
-            <button className="w-full bg-gradient-to-r from-[#D75A4A] to-[#ff7a68] text-white py-3 px-6 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200" onClick={() => onPlanSelect('yearly')}>
-              Purchase Yearly
+            <button
+              className="w-full bg-gradient-to-r from-[#D75A4A] to-[#ff7a68] text-white py-3 px-6 rounded-lg opacity-50 cursor-not-allowed transition-all duration-200"
+              disabled
+            >
+              Claim Free Lifetime Access
             </button>
           </div>
         </div>
@@ -190,18 +148,19 @@ export function Pricing({ onPlanSelect }: PricingProps) {
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h4 className="text-slate-900 mb-2">What happens after the trial ends?</h4>
+              <h4 className="text-slate-900 mb-2">What is beta access?</h4>
               <p className="text-slate-600">
-                After your 7-day free trial, you'll need to purchase and activate a license to continue 
-                using DataProbe. Your configurations and settings will be preserved.
+                During beta, DataProbe is completely free to use. You get full access to all features while we
+                gather feedback and improve the product. Early supporters who claim lifetime access now will keep
+                it forever, even after we launch.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h4 className="text-slate-900 mb-2">Do you offer refunds?</h4>
+              <h4 className="text-slate-900 mb-2">Will pricing change after beta?</h4>
               <p className="text-slate-600">
-                Yes! We offer a 30-day money-back guarantee. If you're not satisfied with DataProbe, 
-                contact us within 30 days of purchase for a full refund.
+                Yes, once we exit beta, we'll introduce paid plans. However, if you claim lifetime access during
+                beta, you'll keep it forever at no cost. This is our way of thanking early supporters.
               </p>
             </div>
           </div>

@@ -6,82 +6,48 @@
  */
 
 /**
- * Download a file from the API endpoint
+ * Download URLs for different platforms and architectures
+ * Files are served from the public/download folder
+ */
+const DOWNLOAD_URLS = {
+  macos: {
+    'apple-silicon': '/download/DataProbe-apple-silicon.dmg',
+    'intel': '/download/DataProbe-intel.dmg',
+  },
+  windows: '/download/DataProbe-setup.exe',
+  linux: '/download/DataProbe-linux.AppImage',
+};
+
+/**
+ * Download a file from a direct URL
  * @param platform - Platform name ('macos' | 'windows' | 'linux')
- * @param version - Optional version string (defaults to 'latest')
+ * @param version - Optional version string (not used with direct URLs)
+ * @param architecture - Optional architecture ('intel' | 'apple-silicon' for macOS)
  * @returns Promise that resolves when download starts
  * @throws Error if download fails
  */
 export async function downloadFile(
   platform: 'macos' | 'windows' | 'linux',
-  version?: string
+  version?: string,
+  architecture?: 'intel' | 'apple-silicon'
 ): Promise<void> {
   try {
-    // Construct API URL
-    const apiUrl = getApiUrl();
-    const url = new URL(`/api/downloads/${platform}`, apiUrl);
-    
-    // Add version query parameter if provided
-    if (version) {
-      url.searchParams.set('version', version);
+    // Get the download URL
+    let downloadUrl: string;
+
+    if (platform === 'macos' && architecture) {
+      downloadUrl = DOWNLOAD_URLS.macos[architecture];
+    } else if (platform === 'macos') {
+      // Default to Apple Silicon for macOS
+      downloadUrl = DOWNLOAD_URLS.macos['apple-silicon'];
+    } else {
+      downloadUrl = DOWNLOAD_URLS[platform];
     }
 
-    // Fetch the file
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/x-apple-diskimage, application/octet-stream, */*',
-      },
-      // Enable credentials if needed for CORS
-      credentials: 'omit',
-    });
+    // Trigger download by opening URL in new tab
+    // This works for direct file URLs (GitHub releases, CDN, etc.)
+    window.open(downloadUrl, '_blank');
 
-    // Handle errors
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      const errorMessage = errorData?.error?.message || `Download failed: ${response.statusText}`;
-      throw new Error(errorMessage);
-    }
-
-    // Get filename from Content-Disposition header
-    const contentDisposition = response.headers.get('Content-Disposition');
-    let filename = `DataProbe-0.1.0.dmg`; // Default fallback
-    
-    if (contentDisposition) {
-      // Try multiple patterns to extract filename
-      // Pattern 1: filename="DataProbe-0.1.0.dmg" (with quotes)
-      let filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
-      if (filenameMatch && filenameMatch[1]) {
-        filename = filenameMatch[1];
-      } else {
-        // Pattern 2: filename=DataProbe-0.1.0.dmg (without quotes)
-        filenameMatch = contentDisposition.match(/filename=([^;]+)/);
-        if (filenameMatch && filenameMatch[1]) {
-          filename = filenameMatch[1].trim();
-        }
-      }
-    }
-    
-    // Log for debugging
-    if (import.meta.env.DEV) {
-      console.log('Download filename:', filename);
-      console.log('Content-Disposition:', contentDisposition);
-    }
-
-    // Create blob from response
-    const blob = await response.blob();
-
-    // Create download link and trigger download
-    const downloadUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-
-    // Cleanup
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(downloadUrl);
   } catch (error) {
     // Re-throw with more context
     if (error instanceof Error) {
@@ -91,28 +57,4 @@ export async function downloadFile(
   }
 }
 
-/**
- * Get the API base URL from environment variables
- * @returns API base URL
- */
-function getApiUrl(): string {
-  // Always use VITE_API_URL if provided (required in production, recommended in development)
-  const apiUrl = import.meta.env.VITE_API_URL;
-  
-  if (apiUrl) {
-    return apiUrl;
-  }
-  
-  // Fallback: In production, use same origin (backend and frontend on same domain)
-  if (!import.meta.env.DEV) {
-    return window.location.origin;
-  }
-  
-  // Development fallback: construct from backend URL env vars
-  const backendHost = import.meta.env.VITE_BACKEND_HOST || 'localhost';
-  const backendPort = import.meta.env.VITE_BACKEND_PORT || '3001';
-  const backendProtocol = import.meta.env.VITE_BACKEND_PROTOCOL || 'http';
-  
-  return `${backendProtocol}://${backendHost}:${backendPort}`;
-}
 
